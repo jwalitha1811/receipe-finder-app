@@ -7,24 +7,32 @@ async function searchRecipes() {
     return;
   }
 
-  // First search by recipe name
+  let meals = [];
+
+  // 1️⃣ Search by meal name
   let url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${query}`;
   let response = await fetch(url);
   let data = await response.json();
 
-  // If not found by name, search by ingredient
-  if (!data.meals) {
+  if (data.meals) {
+    meals = data.meals;
+  } else {
+    // 2️⃣ If not found, search by ingredient
     url = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${query}`;
     response = await fetch(url);
     data = await response.json();
+
+    if (data.meals) {
+      meals = data.meals;
+    }
   }
 
-  if (!data.meals) {
+  if (meals.length === 0) {
     resultsDiv.innerHTML = "<p>No recipes found</p>";
     return;
   }
 
-  resultsDiv.innerHTML = data.meals
+  resultsDiv.innerHTML = meals
     .map(
       (meal) => `
       <div class="recipe">
