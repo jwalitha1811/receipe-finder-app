@@ -55,7 +55,25 @@ async function getRecipe(id) {
   document.getElementById("recipeTitle").innerText = meal.strMeal;
   document.getElementById("recipeSteps").innerText = meal.strInstructions;
 
+  const ingredientList = document.getElementById("ingredientList");
+  ingredientList.innerHTML = "";
+
+  for (let i = 1; i <= 20; i++) {
+    const ingredient = meal[`strIngredient${i}`];
+    const measure = meal[`strMeasure${i}`];
+
+    if (ingredient && ingredient.trim() !== "") {
+      const li = document.createElement("li");
+      li.textContent = `${ingredient} - ${measure}`;
+      ingredientList.appendChild(li);
+    }
+  }
+
   document.getElementById("recipePopup").style.display = "flex";
+}
+
+function closePopup() {
+  document.getElementById("recipePopup").style.display = "none";
 }
 
 function closePopup() {
