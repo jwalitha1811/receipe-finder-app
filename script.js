@@ -51,5 +51,13 @@ async function getRecipe(id) {
   const data = await response.json();
 
   const meal = data.meals[0];
-  alert(meal.strInstructions);
+
+  document.getElementById("recipeTitle").innerText = meal.strMeal;
+  document.getElementById("recipeSteps").innerText = meal.strInstructions;
+
+  document.getElementById("recipePopup").style.display = "flex";
+}
+
+function closePopup() {
+  document.getElementById("recipePopup").style.display = "none";
 }
